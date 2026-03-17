@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Prazos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6f2ff;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }header {
+  background-color: #000;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input, button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.result {
+  margin-top: 2rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.counter {
+  text-align: right;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  color: #333;
+}
+
+  </style>
+</head>
+<body><header>
+  <h1>Calculadora de Prazos</h1>
+</header><div class="container">
+  <label for="startDate">Data inicial:</label>
+  <input type="date" id="startDate"><label for="days">Quantidade de dias:</label> <input type="number" id="days" min="1">
+
+<button onclick="calcular()">Calcular</button>
+
+  <div class="result">
+    <h2>Resultado:</h2>
+    <ul id="listaDias"></ul>
+  </div>  <div class="counter">
+    Acessos: <span id="contador"></span>
+  </div>
+</div><script>
+  function calcular() {
+    const startDateInput = document.getElementById('startDate').value;
+    const days = parseInt(document.getElementById('days').value);
+    const lista = document.getElementById('listaDias');
+
+    lista.innerHTML = '';
+
+    if (!startDateInput || !days) {
+      alert('Preencha todos os campos');
+      return;
+    }
+
+    let currentDate = new Date(startDateInput);
+
+    for (let i = 0; i < days; i++) {
+      let li = document.createElement('li');
+
+      let formattedDate = currentDate.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+
+      li.textContent = `Dia ${i + 1}: ${formattedDate}`;
+      lista.appendChild(li);
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  }
+
+  function atualizarContador() {
+    let visitas = localStorage.getItem('visitas');
+
+    if (!visitas) {
+      visitas = 0;
+    }
+
+    visitas++;
+    localStorage.setItem('visitas', visitas);
+
+    document.getElementById('contador').textContent = visitas;
+  }
+
+  atualizarContador();
+</script></body>
+</html>
